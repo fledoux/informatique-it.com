@@ -51,6 +51,13 @@ final class SecurityController extends AbstractController
     }
 
     #[IsGranted('PUBLIC_ACCESS')]
+    #[Route('/password/reset', name: 'app_password_reset', methods: ['POST'])]
+    public function resetPassword(): Response
+    {
+        die('Réinitialisation du mot de passe temporairement désactivée.');
+    }
+
+    #[IsGranted('PUBLIC_ACCESS')]
     #[Route('/logout', name: 'app_logout')]
     public function logout(): void {}
 }

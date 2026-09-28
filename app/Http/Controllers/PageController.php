@@ -123,6 +123,7 @@ class PageController extends Controller
     #[ProtectAgainstSpam]
     public function contact(Request $request)
     {
+        die('Envoi du formulaire de contact temporairement désactivé.');
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],

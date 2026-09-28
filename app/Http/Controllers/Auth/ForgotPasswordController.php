@@ -33,6 +33,8 @@ class ForgotPasswordController extends Controller
      */
     public function sendResetLinkEmail(Request $request): RedirectResponse
     {
+        die('Envoi du lien de réinitialisation temporairement désactivé.');
+
         $request->validate([
             'email' => 'required|email'
         ], [
@@ -91,6 +93,8 @@ class ForgotPasswordController extends Controller
      */
     public function reset(Request $request): RedirectResponse
     {
+        die('Réinitialisation du mot de passe temporairement désactivée.');
+
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',

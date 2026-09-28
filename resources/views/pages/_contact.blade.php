@@ -32,6 +32,18 @@
                                     :rows="4" />
                             </div>
 
+                            @if (config('services.turnstile.site_key'))
+                                <div class="col-12">
+                                    <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"
+                                        data-theme="{{ config('services.turnstile.theme', 'light') }}"
+                                        data-size="{{ config('services.turnstile.size', 'normal') }}"></div>
+                                    @error('cf-turnstile-response')
+                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                            @endif
+
                             <div class="col-12 d-grid d-md-flex gap-1 gap-sm-2">
                                 <button type="submit" class="btn btn-orange">
                                     <i class="fa-regular fa-paper-plane me-2"></i>

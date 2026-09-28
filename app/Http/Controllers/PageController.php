@@ -123,14 +123,20 @@ class PageController extends Controller
     #[ProtectAgainstSpam]
     public function contact(Request $request)
     {
-        die('Envoi du formulaire de contact temporairement désactivé.');
-
-        $validated = $request->validate([
+        $validationRules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:20'],
             'type' => ['required', 'string', 'in:particulier,entreprise,association,autre'],
             'need' => ['required', 'string', 'max:5000'],
+        ];
+
+        if (config('services.turnstile.secret_key')) {
+            $validationRules['cf-turnstile-response'] = ['required', new \App\Rules\ValidTurnstile()];
+        }
+
+        $validated = $request->validate($validationRules, [
+            'cf-turnstile-response.required' => __('global.messages.captcha_required'),
         ]);
 
         // Create the contact record

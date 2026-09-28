@@ -38,8 +38,6 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request): RedirectResponse
     {
-        die('Inscription temporairement désactivée.');
-
         // Check if registration is open
         $registrationOpen = now()->gte('2025-11-14'); // Ouverture: 14 novembre 2025
         if (env('APP_ENV') == 'local') {

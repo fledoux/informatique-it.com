@@ -33,13 +33,18 @@ class ForgotPasswordController extends Controller
      */
     public function sendResetLinkEmail(Request $request): RedirectResponse
     {
-        die('Envoi du lien de réinitialisation temporairement désactivé.');
+        $validationRules = [
+            'email' => ['required', 'email'],
+        ];
 
-        $request->validate([
-            'email' => 'required|email'
-        ], [
+        if (config('services.turnstile.secret_key')) {
+            $validationRules['cf-turnstile-response'] = ['required', new \App\Rules\ValidTurnstile()];
+        }
+
+        $request->validate($validationRules, [
             'email.required' => __('validation.required'),
             'email.email' => __('validation.email'),
+            'cf-turnstile-response.required' => __('global.messages.captcha_required'),
         ]);
 
         // Trouver l'utilisateur
@@ -93,8 +98,6 @@ class ForgotPasswordController extends Controller
      */
     public function reset(Request $request): RedirectResponse
     {
-        die('Réinitialisation du mot de passe temporairement désactivée.');
-
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
